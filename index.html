@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Character Creator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+        <header>
+            <h1>Retro Character Creator</h1>
+            <p>Turn yourself into a pixel art hero!</p>
+        </header>
+
+        <main>
+            <div class="column" id="input-column">
+                <h2>1. Provide Your Portrait</h2>
+                <div id="image-source">
+                    <video id="webcam-video" autoplay playsinline></video>
+                    <canvas id="webcam-canvas" style="display:none;"></canvas>
+                    <div id="image-preview-container">
+                        <img id="image-preview" src="#" alt="Your image preview">
+                        <p id="preview-placeholder">Your photo will appear here</p>
+                    </div>
+                    <div class="button-group">
+                        <button id="start-webcam-btn">Start Webcam</button>
+                        <button id="capture-photo-btn" class="hidden">Capture Photo</button>
+                        <label for="upload-btn" class="button">Upload Photo</label>
+                        <input type="file" id="upload-btn" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+
+                <h2>2. Customize Your Character</h2>
+                <div id="customization-options">
+                    <div class="form-group">
+                        <label for="bit-style">Bit Style</label>
+                        <select id="bit-style">
+                            <option value="16-bit">16-bit</option>
+                            <option value="8-bit">8-bit</option>
+                            <option value="32-bit">32-bit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="char-class">Class</label>
+                        <select id="char-class">
+                            <option value="Warrior">Warrior</option>
+                            <option value="Mage">Mage</option>
+                            <option value="Archer">Archer</option>
+                            <option value="Rogue">Rogue</option>
+                            <option value="Paladin">Paladin</option>
+                             <option value="Necromancer">Necromancer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="char-race">Race</label>
+                        <select id="char-race">
+                            <option value="Human">Human</option>
+                            <option value="Elf">Elf</option>
+                            <option value="Dwarf">Dwarf</option>
+                            <option value="Orc">Orc</option>
+                            <option value="Undead">Undead</option>
+                            <option value="Gnome">Gnome</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="char-armor">Armor/Equipment</label>
+                        <select id="char-armor">
+                            <option value="Leather Armor">Leather Armor</option>
+                            <option value="Iron Plate Armor">Iron Plate Armor</option>
+                            <option value="Mystic Robes">Mystic Robes</option>
+                            <option value="Adventurer's Gear">Adventurer's Gear</option>
+                            <option value="Shadowy Cloak">Shadowy Cloak</option>
+                        </select>
+                    </div>
+                </div>
+                 <button id="generate-btn">3. Generate Character!</button>
+            </div>
+
+            <div class="column" id="output-column">
+                <h2>Your Character Sprite</h2>
+                <div id="result-container">
+                    <div id="loading-indicator" class="hidden">
+                        <div class="spinner"></div>
+                        <p>Generating your character...</p>
+                    </div>
+                    <img id="result-image" src="" alt="Generated character sprite">
+                </div>
+                <div id="prompt-container" class="hidden">
+                    <h3>Generated Prompt:</h3>
+                    <p id="prompt-text"></p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="script.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+
