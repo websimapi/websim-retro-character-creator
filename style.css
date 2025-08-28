@@ -296,8 +296,13 @@ select {
     color: var(--accent-color);
 }
 
-#share-btn {
+#share-btn, #download-btn {
     width: 100%;
+}
+
+#download-btn {
+    margin-top: 10px;
+    background-color: var(--secondary-color);
 }
 
 /* Gallery Styles */
@@ -335,6 +340,12 @@ select {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.gallery-item:hover {
+    transform: scale(1.03);
 }
 
 .gallery-item img {

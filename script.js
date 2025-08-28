@@ -16,6 +16,7 @@ const promptContainer = document.getElementById('prompt-container');
 const promptText = document.getElementById('prompt-text');
 const shareContainer = document.getElementById('share-container');
 const shareBtn = document.getElementById('share-btn');
+const downloadBtn = document.getElementById('download-btn');
 const includePortraitCheckbox = document.getElementById('include-portrait-checkbox');
 const galleryGrid = document.getElementById('gallery-grid');
 
@@ -178,6 +179,24 @@ generateBtn.addEventListener('click', async () => {
     }
 });
 
+// --- Download Functionality ---
+function downloadImage(url, filename) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename || 'character-sprite.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+downloadBtn.addEventListener('click', () => {
+    if (!lastGeneratedData.generated_sprite_url) {
+        alert("Please generate a character first.");
+        return;
+    }
+    downloadImage(lastGeneratedData.generated_sprite_url, 'character-sprite.png');
+});
+
 // --- Sharing Functionality ---
 shareBtn.addEventListener('click', async () => {
     if (!lastGeneratedData.generated_sprite_url) {
@@ -239,6 +258,12 @@ function renderGallery(characters) {
         
         item.appendChild(img);
         item.appendChild(overlay);
+
+        // Add click to download
+        item.addEventListener('click', () => {
+            const filename = `${char.username}-${char.char_race}-${char.char_class}.png`;
+            downloadImage(char.generated_sprite_url, filename);
+        });
 
         if (char.original_portrait_url) {
             const thumb = document.createElement('div');
