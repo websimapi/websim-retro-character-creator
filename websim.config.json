@@ -1,0 +1,37 @@
+{
+  "database": {
+    "schema": {
+      "characters_v1": {
+        "generated_sprite_url": {
+          "type": "text",
+          "description": "URL of the generated character sprite"
+        },
+        "original_portrait_url": {
+          "type": "text",
+          "description": "URL of the original user portrait (optional)"
+        },
+        "prompt": {
+          "type": "text",
+          "description": "The full prompt used for generation"
+        },
+        "bit_style": {
+          "type": "text",
+          "description": "e.g., 16-bit, 8-bit"
+        },
+        "char_class": {
+          "type": "text",
+          "description": "e.g., Warrior, Mage"
+        },
+        "char_race": {
+          "type": "text",
+          "description": "e.g., Elf, Orc"
+        },
+        "char_armor": {
+          "type": "text",
+          "description": "e.g., Leather Armor, Mystic Robes"
+        }
+      }
+    }
+  }
+}
+

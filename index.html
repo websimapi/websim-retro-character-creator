@@ -90,25 +90,31 @@
                     <h3>Generated Prompt:</h3>
                     <p id="prompt-text"></p>
                 </div>
-                <div id="share-controls" class="hidden">
-                    <label class="include-original">
-                        <input type="checkbox" id="include-original-checkbox"> Include original portrait
-                    </label>
+                 <div id="share-container" class="hidden">
+                    <h3>Share Your Creation</h3>
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="include-portrait-checkbox" checked>
+                        <label for="include-portrait-checkbox">Include original portrait</label>
+                    </div>
                     <button id="share-btn">Share to Gallery</button>
                 </div>
             </div>
         </main>
-        <section id="gallery-section">
+
+        <div id="gallery-container">
             <h2>Community Gallery</h2>
-            <div id="gallery-grid"></div>
-        </section>
-        <div id="modal-overlay" class="hidden" role="dialog" aria-modal="true">
-            <div id="modal-content">
-                <button id="modal-close" aria-label="Close">Close</button>
-                <img id="modal-image" alt="Original portrait preview">
+            <div id="gallery-grid">
+                <!-- Gallery items will be injected here by script.js -->
             </div>
         </div>
     </div>
+    <script type="importmap">
+    {
+      "imports": {
+        "@websim/websim-socket": "https://esm.websim.com/@websim/websim-socket"
+      }
+    }
+    </script>
     <script type="module" src="script.js"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
