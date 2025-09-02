@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Retro Character Creator</title>
+    <title>Plushie Creator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="app-container">
         <header>
-            <h1>Retro Character Creator</h1>
-            <p>Turn yourself into a pixel art hero!</p>
+            <h1>Plushie Creator</h1>
+            <p>Turn anything into a cuddly plush toy!</p>
         </header>
 
         <main>
             <div class="column" id="input-column">
-                <h2>1. Provide Your Portrait</h2>
+                <h2>1. Provide an Image</h2>
                 <div id="image-source">
                     <video id="webcam-video" autoplay playsinline></video>
                     <canvas id="webcam-canvas" style="display:none;"></canvas>
@@ -31,60 +31,49 @@
                     </div>
                 </div>
 
-                <h2>2. Customize Your Character</h2>
+                <h2>2. Customize Your Plushie</h2>
                 <div id="customization-options">
                     <div class="form-group">
-                        <label for="bit-style">Bit Style</label>
-                        <select id="bit-style">
-                            <option value="16-bit">16-bit</option>
-                            <option value="8-bit">8-bit</option>
-                            <option value="32-bit">32-bit</option>
+                        <label for="plushie-style">Style</label>
+                        <select id="plushie-style">
+                            <option value="Cute">Cute</option>
+                            <option value="Chibi">Chibi</option>
+                            <option value="Amigurumi (Crocheted)">Amigurumi (Crocheted)</option>
+                            <option value="Felt">Felt</option>
+                            <option value="Realistic">Realistic</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="char-class">Class</label>
-                        <select id="char-class">
-                            <option value="Warrior">Warrior</option>
-                            <option value="Mage">Mage</option>
-                            <option value="Archer">Archer</option>
-                            <option value="Rogue">Rogue</option>
-                            <option value="Paladin">Paladin</option>
-                             <option value="Necromancer">Necromancer</option>
+                        <label for="plushie-material">Material</label>
+                        <select id="plushie-material">
+                            <option value="Fuzzy Fleece">Fuzzy Fleece</option>
+                            <option value="Soft Yarn">Soft Yarn</option>
+                            <option value="Smooth Felt">Smooth Felt</option>
+                            <option value="Plush Velvet">Plush Velvet</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="char-race">Race</label>
-                        <select id="char-race">
-                            <option value="Human">Human</option>
-                            <option value="Elf">Elf</option>
-                            <option value="Dwarf">Dwarf</option>
-                            <option value="Orc">Orc</option>
-                            <option value="Undead">Undead</option>
-                            <option value="Gnome">Gnome</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="char-armor">Armor/Equipment</label>
-                        <select id="char-armor">
-                            <option value="Leather Armor">Leather Armor</option>
-                            <option value="Iron Plate Armor">Iron Plate Armor</option>
-                            <option value="Mystic Robes">Mystic Robes</option>
-                            <option value="Adventurer's Gear">Adventurer's Gear</option>
-                            <option value="Shadowy Cloak">Shadowy Cloak</option>
+                        <label for="plushie-accessory">Accessory</label>
+                        <select id="plushie-accessory">
+                            <option value="None">None</option>
+                            <option value="a cute bowtie">Cute Bowtie</option>
+                            <option value="a tiny top hat">Tiny Top Hat</option>
+                            <option value="a cozy scarf">Cozy Scarf</option>
+                            <option value="an embroidered heart">Embroidered Heart</option>
                         </select>
                     </div>
                 </div>
-                 <button id="generate-btn">3. Generate Character!</button>
+                 <button id="generate-btn">3. Generate Plushie!</button>
             </div>
 
             <div class="column" id="output-column">
-                <h2>Your Character Sprite</h2>
+                <h2>Your Plushie</h2>
                 <div id="result-container">
                     <div id="loading-indicator" class="hidden">
                         <div class="spinner"></div>
-                        <p>Generating your character...</p>
+                        <p>Stitching your plushie...</p>
                     </div>
-                    <img id="result-image" src="" alt="Generated character sprite">
+                    <img id="result-image" src="" alt="Generated plushie">
                 </div>
                 <div id="prompt-container" class="hidden">
                     <h3>Generated Prompt:</h3>
@@ -94,10 +83,10 @@
                     <h3>Share Your Creation</h3>
                     <div class="form-group-inline">
                         <input type="checkbox" id="include-portrait-checkbox" checked>
-                        <label for="include-portrait-checkbox">Include original portrait</label>
+                        <label for="include-portrait-checkbox">Include original image</label>
                     </div>
                     <button id="share-btn">Share to Gallery</button>
-                    <button id="download-btn">Download Sprite</button>
+                    <button id="download-btn">Download Plushie</button>
                 </div>
             </div>
         </main>

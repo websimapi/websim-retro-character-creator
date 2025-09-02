@@ -98,23 +98,24 @@ generateBtn.addEventListener('click', async () => {
 
     try {
         // Get user selections
-        const bitStyle = document.getElementById('bit-style').value;
-        const charClass = document.getElementById('char-class').value;
-        const charRace = document.getElementById('char-race').value;
-        const charArmor = document.getElementById('char-armor').value;
+        const plushieStyle = document.getElementById('plushie-style').value;
+        const plushieMaterial = document.getElementById('plushie-material').value;
+        const plushieAccessory = document.getElementById('plushie-accessory').value;
 
         // 1. AI call to analyze image and create a prompt
         const analysisCompletion = await websim.chat.completions.create({
             messages: [
                 {
                     role: "system",
-                    content: `You are an expert prompt engineer for a pixel art AI generator. Your task is to analyze an image of a person and user-defined character traits to create a detailed, high-quality prompt.
+                    content: `You are an expert prompt engineer for an image generation AI. Your task is to analyze an image and user-defined traits to create a detailed, high-quality prompt for generating a plush toy.
                     
-                    Analyze the user's photo to identify key features like gender expression (masculine, feminine), hair color, hairstyle, and notable features like glasses or facial hair.
+                    Analyze the provided image to identify the main subject (person, animal, object, etc.). 
                     
-                    Combine these observations with the user's choices for style, race, class, and armor.
+                    Combine these observations with the user's choices for style, material, and accessory.
                     
-                    Construct a single, cohesive prompt that describes a full-body character sprite. The prompt should be comma-separated and include keywords like "pixel art", "2D game sprite", "full body character", "standing pose", and "white background". Emphasize the art style (e.g., 'SNES-style 16-bit pixel art').
+                    Construct a single, cohesive prompt that describes the subject as a cute, soft, cuddly plush toy. The prompt should be comma-separated and include keywords like "plush toy", "stuffed animal", "soft", "cuddly", "3D render", "product photography", "on a clean white background".
+                    
+                    If an accessory is chosen (and not 'None'), integrate it naturally into the prompt (e.g., "wearing a cute bowtie").
                     
                     Respond ONLY with a JSON object in the format: { "prompt": "your_generated_prompt_here" }. Do not include any other text or explanation.`,
                 },
@@ -124,10 +125,9 @@ generateBtn.addEventListener('click', async () => {
                         {
                             type: "text",
                             text: `Generate a prompt based on these choices:
-                            - Style: ${bitStyle}
-                            - Race: ${charRace}
-                            - Class: ${charClass}
-                            - Armor: ${charArmor}`,
+                            - Style: ${plushieStyle}
+                            - Material: ${plushieMaterial}
+                            - Accessory: ${plushieAccessory}`,
                         },
                         {
                             type: "image_url",
@@ -148,17 +148,15 @@ generateBtn.addEventListener('click', async () => {
         const imageResult = await websim.imageGen({
             prompt: generatedPrompt,
             aspect_ratio: "1:1",
-            transparent: true,
         });
         
         lastGeneratedData = {
-            generated_sprite_url: imageResult.url,
-            original_portrait_data_url: imageDataUrl,
+            generated_plushie_url: imageResult.url,
+            original_image_data_url: imageDataUrl,
             prompt: generatedPrompt,
-            bit_style: bitStyle,
-            char_class: charClass,
-            char_race: charRace,
-            char_armor: charArmor,
+            plushie_style: plushieStyle,
+            plushie_material: plushieMaterial,
+            plushie_accessory: document.getElementById('plushie-accessory').options[document.getElementById('plushie-accessory').selectedIndex].text, // get text label
         };
 
         resultImage.src = imageResult.url;
@@ -170,12 +168,12 @@ generateBtn.addEventListener('click', async () => {
 
     } catch (error) {
         console.error("Error during generation:", error);
-        alert("An error occurred while generating the character. Please try again.");
+        alert("An error occurred while generating the plushie. Please try again.");
     } finally {
         // Hide loading state
         loadingIndicator.classList.add('hidden');
         generateBtn.disabled = false;
-        generateBtn.textContent = '3. Generate Character!';
+        generateBtn.textContent = '3. Generate Plushie!';
     }
 });
 
@@ -183,24 +181,24 @@ generateBtn.addEventListener('click', async () => {
 function downloadImage(url, filename) {
     const link = document.createElement('a');
     link.href = url;
-    link.download = filename || 'character-sprite.png';
+    link.download = filename || 'plushie.png';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 }
 
 downloadBtn.addEventListener('click', () => {
-    if (!lastGeneratedData.generated_sprite_url) {
-        alert("Please generate a character first.");
+    if (!lastGeneratedData.generated_plushie_url) {
+        alert("Please generate a plushie first.");
         return;
     }
-    downloadImage(lastGeneratedData.generated_sprite_url, 'character-sprite.png');
+    downloadImage(lastGeneratedData.generated_plushie_url, 'plushie.png');
 });
 
 // --- Sharing Functionality ---
 shareBtn.addEventListener('click', async () => {
-    if (!lastGeneratedData.generated_sprite_url) {
-        alert("Please generate a character first.");
+    if (!lastGeneratedData.generated_plushie_url) {
+        alert("Please generate a plushie first.");
         return;
     }
 
@@ -208,28 +206,27 @@ shareBtn.addEventListener('click', async () => {
     shareBtn.textContent = 'Sharing...';
 
     try {
-        let originalPortraitUrl = null;
-        if (includePortraitCheckbox.checked && lastGeneratedData.original_portrait_data_url) {
-            const file = await dataUrlToFile(lastGeneratedData.original_portrait_data_url, 'portrait.png');
-            originalPortraitUrl = await websim.upload(file);
+        let originalImageUrl = null;
+        if (includePortraitCheckbox.checked && lastGeneratedData.original_image_data_url) {
+            const file = await dataUrlToFile(lastGeneratedData.original_image_data_url, 'original.png');
+            originalImageUrl = await websim.upload(file);
         }
 
-        await room.collection('characters_v1').create({
-            generated_sprite_url: lastGeneratedData.generated_sprite_url,
-            original_portrait_url: originalPortraitUrl,
+        await room.collection('plushies_v1').create({
+            generated_plushie_url: lastGeneratedData.generated_plushie_url,
+            original_image_url: originalImageUrl,
             prompt: lastGeneratedData.prompt,
-            bit_style: lastGeneratedData.bit_style,
-            char_class: lastGeneratedData.char_class,
-            char_race: lastGeneratedData.char_race,
-            char_armor: lastGeneratedData.char_armor,
+            plushie_style: lastGeneratedData.plushie_style,
+            plushie_material: lastGeneratedData.plushie_material,
+            plushie_accessory: lastGeneratedData.plushie_accessory,
         });
 
-        alert("Character shared successfully!");
+        alert("Plushie shared successfully!");
         shareContainer.classList.add('hidden');
 
     } catch (error) {
-        console.error("Error sharing character:", error);
-        alert("There was an error sharing your character. Please try again.");
+        console.error("Error sharing plushie:", error);
+        alert("There was an error sharing your plushie. Please try again.");
     } finally {
         shareBtn.disabled = false;
         shareBtn.textContent = 'Share to Gallery';
@@ -237,23 +234,23 @@ shareBtn.addEventListener('click', async () => {
 });
 
 // --- Gallery Rendering ---
-function renderGallery(characters) {
+function renderGallery(plushies) {
     galleryGrid.innerHTML = ''; // Clear existing items
-    const reversedCharacters = characters.slice().reverse(); // Show newest first
-    reversedCharacters.forEach(char => {
+    const reversedPlushies = plushies.slice().reverse(); // Show newest first
+    reversedPlushies.forEach(plushie => {
         const item = document.createElement('div');
         item.className = 'gallery-item';
 
         const img = document.createElement('img');
-        img.src = char.generated_sprite_url;
-        img.alt = `A ${char.bit_style} character`;
+        img.src = plushie.generated_plushie_url;
+        img.alt = `A ${plushie.plushie_style} plushie`;
 
         const overlay = document.createElement('div');
         overlay.className = 'gallery-item-overlay';
         overlay.innerHTML = `
-            <strong>${char.username}</strong>
-            <span>${char.char_race} ${char.char_class}</span>
-            <span>(${char.bit_style})</span>
+            <strong>${plushie.username}</strong>
+            <span>${plushie.plushie_style}</span>
+            <span>(${plushie.plushie_material})</span>
         `;
         
         item.appendChild(img);
@@ -261,18 +258,18 @@ function renderGallery(characters) {
 
         // Add click to download
         item.addEventListener('click', () => {
-            const filename = `${char.username}-${char.char_race}-${char.char_class}.png`;
-            downloadImage(char.generated_sprite_url, filename);
+            const filename = `${plushie.username}-${plushie.plushie_style}.png`;
+            downloadImage(plushie.generated_plushie_url, filename);
         });
 
-        if (char.original_portrait_url) {
+        if (plushie.original_image_url) {
             const thumb = document.createElement('div');
             thumb.className = 'original-portrait-thumb';
-            thumb.style.backgroundImage = `url(${char.original_portrait_url})`;
-            thumb.title = "Click to view original portrait";
+            thumb.style.backgroundImage = `url(${plushie.original_image_url})`;
+            thumb.title = "Click to view original image";
             thumb.addEventListener('click', (e) => {
                 e.stopPropagation();
-                window.open(char.original_portrait_url, '_blank');
+                window.open(plushie.original_image_url, '_blank');
             });
             item.appendChild(thumb);
         }
@@ -282,4 +279,4 @@ function renderGallery(characters) {
 }
 
 // Subscribe to gallery updates
-room.collection('characters_v1').subscribe(renderGallery);
+room.collection('plushies_v1').subscribe(renderGallery);
